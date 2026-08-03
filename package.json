@@ -1,0 +1,49 @@
+{
+  "name": "medkwik-healthbuddy-backend",
+  "version": "1.0.0",
+  "description": "Production-ready backend for MedKwik HealthBuddy Admin Dashboard",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1062.0",
+    "@aws-sdk/s3-request-presigner": "^3.1062.0",
+    "@socket.io/redis-adapter": "^8.3.0",
+    "axios": "^1.6.8",
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.3",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.2.0",
+    "express-validator": "^7.0.1",
+    "firebase": "^12.16.0",
+    "firebase-admin": "^13.10.0",
+    "helmet": "^7.1.0",
+    "ioredis": "^5.4.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^7.5.0",
+    "mongoose": "^8.3.1",
+    "morgan": "^1.10.0",
+    "multer": "^2.1.1",
+    "nodemailer": "^8.0.5",
+    "os": "^0.1.2",
+    "pdfkit": "^0.18.0",
+    "qrcode": "^1.5.4",
+    "rate-limiter-flexible": "^5.0.3",
+    "socket.io": "^4.7.5",
+    "uuid": "^9.0.1",
+    "winston": "^3.13.0",
+    "winston-daily-rotate-file": "^5.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
