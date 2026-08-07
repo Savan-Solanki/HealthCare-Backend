@@ -13,6 +13,11 @@ const verifyTurnstile = async ({ token, ip }) => {
     throw new AppError("Captcha verification is required.", 400);
   }
 
+  // Allow dev bypass in development/testing mode when Cloudflare Turnstile key is restricted to production domains
+  if (process.env.NODE_ENV !== "production" && (token.startsWith("dev_bypass") || token === "1x00000000000000000000AA")) {
+    return { success: true, challenge_ts: new Date().toISOString(), hostname: "localhost" };
+  }
+
   const payload = new URLSearchParams({
     secret,
     response: token,
