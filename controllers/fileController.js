@@ -89,6 +89,21 @@ exports.downloadFile = catchAsync(async (req, res, next) => {
       expiresIn: 3600, // 1 hour
     });
 
+    if (req.query.stream === "true" || req.query.view === "true") {
+      try {
+        const { getS3Client, getBucketName } = require("../utils/s3Client");
+        const { GetObjectCommand } = require("@aws-sdk/client-s3");
+        const s3 = getS3Client();
+        const command = new GetObjectCommand({ Bucket: getBucketName(), Key: report.s3Key });
+        const s3Response = await s3.send(command);
+        res.setHeader("Content-Type", report.contentType || "application/pdf");
+        res.setHeader("Content-Disposition", `inline; filename="${report.fileName || 'report.pdf'}"`);
+        return s3Response.Body.pipe(res);
+      } catch {
+        // Fall back to pre-signed URL redirect if stream pipe fails
+      }
+    }
+
     const wantsRedirect = req.query.redirect === "true" || !req.accepts("json");
     if (wantsRedirect) {
       return res.redirect(302, url);
@@ -131,6 +146,21 @@ exports.downloadFile = catchAsync(async (req, res, next) => {
       contentType: prescription.document.contentType || "application/pdf",
       expiresIn: 3600, // 1 hour
     });
+
+    if (req.query.stream === "true" || req.query.view === "true") {
+      try {
+        const { getS3Client, getBucketName } = require("../utils/s3Client");
+        const { GetObjectCommand } = require("@aws-sdk/client-s3");
+        const s3 = getS3Client();
+        const command = new GetObjectCommand({ Bucket: getBucketName(), Key: prescription.document.key });
+        const s3Response = await s3.send(command);
+        res.setHeader("Content-Type", prescription.document.contentType || "application/pdf");
+        res.setHeader("Content-Disposition", `inline; filename="${prescription.document.fileName || 'prescription.pdf'}"`);
+        return s3Response.Body.pipe(res);
+      } catch {
+        // Fall back to pre-signed URL redirect if stream pipe fails
+      }
+    }
 
     const wantsRedirect = req.query.redirect === "true" || !req.accepts("json");
     if (wantsRedirect) {
