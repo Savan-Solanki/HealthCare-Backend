@@ -1,13 +1,9 @@
 const logger = require("../utils/logger");
 
 const DEFAULT_ALLOWED_ORIGINS = [
-  "https://www.medikwikhealthbuddy.in",
-  "https://medikwikhealthbuddy.in",
-  "https://system.medikwikhealthbuddy.in",
-  "http://localhost:3000",
-  "http://localhost:3001",
-  "http://127.0.0.1:3000",
-  "http://127.0.0.1:3001",
+ "https://health-care-web-phi.vercel.app",
+ "health-care-web-phi.vercel.app",
+ 
 ];
 
 const parseOriginList = (value) =>
