@@ -53,6 +53,7 @@ const receiptRoutes = require("./routes/receiptRoutes");
 const fileRoutes = require("./routes/fileRoutes");
 const storageRoutes = require("./routes/storageRoutes");
 const { startScheduledTasks } = require("./jobs/scheduledTasks");
+const { ensureBucketCors } = require("./utils/s3Client");
 
 validateEnv();
 
@@ -61,6 +62,7 @@ connectDB()
   .then(() => ensureDefaultAdmin())
   .then(() => {
     startScheduledTasks();
+    return ensureBucketCors();
   })
   .catch((error) => {
     logger.error(`Startup initialization error: ${error.message}`);

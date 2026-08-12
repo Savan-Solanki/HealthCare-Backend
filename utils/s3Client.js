@@ -1,4 +1,4 @@
-const { S3Client } = require("@aws-sdk/client-s3");
+const { S3Client, PutBucketCorsCommand } = require("@aws-sdk/client-s3");
 
 const AppError = require("./AppError");
 
@@ -40,8 +40,39 @@ const getS3Client = () => {
   return s3Client;
 };
 
+const ensureBucketCors = async () => {
+  try {
+    const client = getS3Client();
+    const bucket = getBucketName();
+    const command = new PutBucketCorsCommand({
+      Bucket: bucket,
+      CORSConfiguration: {
+        CORSRules: [
+          {
+            AllowedHeaders: ["*"],
+            AllowedMethods: ["GET", "PUT", "POST", "DELETE", "HEAD"],
+            AllowedOrigins: [
+              "https://health-care-mobile.vercel.app",
+              "https://health-care-web-phi.vercel.app",
+              "http://localhost:3000",
+              "http://localhost:3001",
+              "*",
+            ],
+            ExposeHeaders: ["ETag"],
+            MaxAgeSeconds: 3000,
+          },
+        ],
+      },
+    });
+    await client.send(command);
+  } catch {
+    // Non-fatal if AWS credentials lack s3:PutBucketCORS permission
+  }
+};
+
 module.exports = {
   ensureStorageConfig,
+  ensureBucketCors,
   getBucketName,
   getRegion,
   getS3Client,

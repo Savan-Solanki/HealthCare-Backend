@@ -1,9 +1,10 @@
 const logger = require("../utils/logger");
 
 const DEFAULT_ALLOWED_ORIGINS = [
- "https://health-care-web-phi.vercel.app",
- "health-care-web-phi.vercel.app",
- 
+  "https://health-care-web-phi.vercel.app",
+  "https://health-care-mobile.vercel.app",
+  "health-care-web-phi.vercel.app",
+  "health-care-mobile.vercel.app",
 ];
 
 const parseOriginList = (value) =>
